@@ -1,0 +1,27 @@
+{
+  "name": "devspaces-electron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^10.1.5",
+    "electron-builder": "^22.9.1"
+  },
+  "build": {
+    "appId": "devspaces-electron.id",
+    "protocols": {
+      "name": "devspaces-protocol",
+      "schemes": [
+        "devspaces-electron"
+      ]
+    },
+    "win": {}
+  }
+}
