@@ -9,6 +9,24 @@ Create POC for:
 
 Objective: To understand the scope of what can be achieved (Feasibility Study)
 
+## Milestone 1: Session Management + Quick set config via extension
+
+### Feasibility Study:
+
+`https://trilogy.devspaces.com/` communicates via websocket within the same origin.
+I could not find any public API to be able to create + manage an auth session,
+and therefore control configuration via extension
+This means any configuration that is set, must be done via the DevSpaces domain.
+
+### Alternative solution:
+
+Open `https://trilogy.devspaces.com/settings/` in new window on click
+User will have to configure settings on the domain.
+
+### Benefit:
+
+Adds a tiny benefit of not looking up
+
 ## Brainstorm session notes:
 
 Ways to procure lambda logs directly using aws cli

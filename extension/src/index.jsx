@@ -26,6 +26,7 @@ const App = () => {
           className={`top-bar-icon ${
             page === PAGE_NAME.SETTINGS ? "highlight-bg" : ""
           }`}
+          onClick={() => window.open("https://trilogy.devspaces.com/settings/")}
         >
           <img src={settings} />
         </div>
