@@ -27,6 +27,18 @@ User will have to configure settings on the domain.
 
 Adds a tiny benefit of not looking up
 
+## Milestone 2: Multiple env management UI
+
+### Feasibility Study:
+
+Material-UI based mini-dashboard for managing deploy & env settings. Nothing too complex. Feasible.
+
+### Benefit:
+
+Gives you more control over the kind of configuration/deployment you need for that particular branch or commit.
+
+Pass env name as variable to DevSpace and use this env name in gitpod.yml file / Docker file?
+
 ## Brainstorm session notes:
 
 Ways to procure lambda logs directly using aws cli
