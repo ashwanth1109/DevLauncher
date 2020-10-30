@@ -4,11 +4,11 @@
   box-sizing: border-box;
 }
 
-body {
+.app {
   background: #18191c;
   color: #ffffff;
   width: 400px;
-  height: 200px;
+  height: 400px;
   padding: 8px;
   display: flex;
   flex-direction: column;
@@ -18,6 +18,14 @@ body {
   width: 100%;
   height: 40px;
   border-bottom: 1px solid #4a7ce0;
+}
+
+.flex1 {
+  flex: 1;
+}
+
+.highlight-bg {
+  background: #4a7ce0;
 }
 
 .top-bar-icon {
@@ -32,4 +40,25 @@ body {
 
 .top-bar-icon > svg {
   height: 20px;
+}
+
+/**
+Common classes
+ */
+
+.input {
+  width: 90%;
+}
+
+.row {
+  display: flex;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+}
+
+.a-center {
+  align-items: center;
 }
