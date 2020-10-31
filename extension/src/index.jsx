@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import ReactDOM from "react-dom";
 import settings from "./assets/settings.png";
 import upload from "./assets/upload.png";
@@ -12,15 +12,15 @@ const PAGE_NAME = {
   DEPLOY: "DEPLOY",
 };
 
-const App = () => {
-  const [page, setPage] = useState(PAGE_NAME.SETTINGS);
+const App = ({ tab }) => {
+  const [page, setPage] = useState(PAGE_NAME.DEPLOY);
 
   const renderPage = useCallback(() => {
     switch (page) {
       case PAGE_NAME.SETTINGS:
         return <Settings />;
       case PAGE_NAME.DEPLOY:
-        return <Deploy />;
+        return <Deploy url={tab.url} />;
       default:
         return null;
     }
@@ -42,4 +42,9 @@ const App = () => {
 };
 
 const root = document.getElementById("root");
-ReactDOM.render(<App />, root);
+
+chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+  const tab = tabs[0];
+
+  ReactDOM.render(<App tab={tab} />, root);
+});
