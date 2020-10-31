@@ -98,6 +98,21 @@ We then authenticate this user in the extension and then exchange the accessToke
 - Automatically filter lambda logs for YOUR env and fetch only the LAST log stream by default at the click of a button
 - Considering the ephemeral nature of the workspace, we can launch workspace, check logs in extension, make changes, close workspace and launch a new one. This makes development seamless and everything can be done from one point
 
+## Milestone 5: Lambda select component
+
+### Feasibility Study:
+
+We need a simple material select component in UI. Nothing too complex. Should be feasible.
+
+### Rationale:
+
+Give user the flexibility to choose which lambda they are interested in rather than showing everything.
+
+### Implementation Details:
+
+We already have all the log groups fetched for a particular env.
+We need to use those as options to the material component.
+
 ## Brainstorm session notes:
 
 Ways to procure lambda logs directly using aws cli
