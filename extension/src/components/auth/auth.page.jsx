@@ -42,10 +42,10 @@ const Auth = () => {
   };
 
   useEffect(() => {
-    console.log("EFFECT TRIGGERED");
     const userPool = new CognitoUserPool(poolData);
 
     const cognitoUser = userPool.getCurrentUser();
+    console.log("EFFECT TRIGGERED", cognitoUser);
     setCognitoUser(cognitoUser);
 
     if (cognitoUser !== null) {
@@ -104,14 +104,17 @@ const Auth = () => {
       onSuccess: function (session) {
         console.log("Success", session);
         // const idToken = result.getIdToken();
-        setUser(session.getAccessToken().decodePayload());
+        setUser(session.getAccessToken().decodePayload().username);
         // setAccessToken(accessPayload);
         // localStorage.setItem(
         //   "accessToken",
         //   JSON.stringify(accessToken.getJwtToken())
         // );
         // localStorage.setItem("idToken", JSON.stringify(idToken.getJwtToken()));
-        setShowFetchButton(true);
+
+        // const user = ;
+        // console.log("COGNITP USER", user);
+        setCognitoUser(userPool.getCurrentUser());
 
         // setCognitoUser(cognitoUser);
         // localStorage.setItem("cognitoUser", JSON.stringify(cognitoUser));
