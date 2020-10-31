@@ -2,12 +2,17 @@
 
 ## Milestone 0: Extension, Desktop App POC tests
 
-Create POC for:
+### Rationale:
+
+Explore how to create chrome extension and electron apps to understand the scope of which ideas are achievable
+(Feasibility Study (macro) for the project)
+
+### Implementation Details:
+
+Created a POC for:
 
 1. Chrome extension setup with popup window written with parcel + react
 2. Electron wrapper for DevSpaces Workspace
-
-Objective: To understand the scope of what can be achieved (Feasibility Study)
 
 ## Milestone 1: Session Management + Quick set config via extension
 
@@ -68,6 +73,14 @@ Same benefit as Milestone 2.
 - I know the code is not in deployable state. Does not make sense to execute any run scripts. I make the necessary change, push the changes and only then launch a new workspace from latest commit in deploy mode (executing run scripts).
 - I have a lot of setup (or data) associated with my users. Cleaning and reseeding my database will result in the loss of this setup. Execute only env deployment
 - My CDK has had resources change that requires destroying and redeploying my env from scratch. Enable destroy and deploy before opening my workspace.
+
+## Milestone 4: Launch workspace without opening cloud IDE
+
+### Rationale:
+
+As much as
+
+### Feasibility Study:
 
 ## Brainstorm session notes:
 
