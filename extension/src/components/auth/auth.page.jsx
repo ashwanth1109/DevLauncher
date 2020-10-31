@@ -12,6 +12,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
+import getLogDisplayString from "../../utils/get-log-display-string";
 
 const poolData = {
   UserPoolId: "us-east-1_Ker0E3FWJ",
@@ -30,6 +31,7 @@ const Auth = () => {
   const [logGroupName, setLogGroupName] = useState("");
   const [user, setUser] = useState(null);
   const [cognitoUser, setCognitoUser] = useState(null);
+  const [cwInstance, setCwInstance] = useState(null);
 
   const handleLambdaSelectChange = (e) => {
     setLogGroupName(e.target.value);
@@ -63,9 +65,10 @@ const Auth = () => {
   };
 
   const fetchLambdaLogGroups = (sessionToken) => {
-    const cwLogs = new CloudWatchLogs({ sessionToken, region });
+    const instance = new CloudWatchLogs({ sessionToken, region });
+    setCwInstance(instance);
 
-    cwLogs.describeLogGroups(
+    instance.describeLogGroups(
       {
         logGroupNamePrefix: "/aws/lambda/responsetek_ash1",
       },
@@ -106,23 +109,6 @@ const Auth = () => {
 
     setCheckingAuth(false);
   }, []);
-
-  // useEffect(() => {
-  //   let token = localStorage.getItem("accessToken");
-  //   let cgUser = localStorage.getItem("cognitoUser");
-  //
-  //   if (token && cgUser) {
-  //     token = JSON.parse(token);
-  //     console.log(token);
-  //     setAccessToken(token);
-  //     const payload = token.payload;
-  //     setUser(payload.username);
-  //     setShowFetchButton(true);
-  //     setCognitoUser(JSON.parse(cgUser));
-  //   }
-  //
-  //   setCheckingAuth(false);
-  // }, []);
 
   const authenticateUser = () => {
     console.log("Test", username, password);
@@ -177,96 +163,49 @@ const Auth = () => {
 
       createSession(session);
     });
-
-    // console.log("COGNITO USER IN USE EFFECT", cognitoUser);
-    //
-    // promisify(cognitoUser.getSession).then((session) => {
-    //   console.log(session);
-    // });
-
-    // try {
-    //   const session = await promisify(cognitoUser.getSession);
-    //   console.log("You are logged in", session);
-    // } catch (e) {
-    //   console.log("Error", e);
-    // }
   }, [cognitoUser]);
 
   const fetchLambdaLogs = () => {
-    if (!cognitoUser) {
+    console.log(cwInstance);
+    if (!cwInstance) {
       return;
     }
 
-    // cognitoUser.getSession((err, session) => {
-    //   if (session) {
-    //     config.credentials = createCredentialsObject(session);
-    //
-    //     config.credentials.get((err) => {
-    //       if (err) {
-    //         console.log(err);
-    //         return;
-    //       }
-    //
-    //       const { sessionToken } = config.credentials;
-    //
-    //       const cwLogs = new CloudWatchLogs({
-    //         sessionToken,
-    //         region: "us-east-1",
-    //       });
-    //
-    //       cwLogs.describeLogGroups(
-    //         {
-    //           logGroupNamePrefix: "/aws/lambda/responsetek_ash1",
-    //         },
-    //         (err, data) => {
-    //           if (err) {
-    //             console.log(err, err.stack);
-    //             return;
-    //           }
-    //
-    //           console.log(data);
-    //
-    //           const logGroup = data.logGroups[0];
-    //           const { logGroupName } = logGroup;
-    //
-    //           cwLogs.describeLogStreams(
-    //             {
-    //               logGroupName,
-    //               limit: 1,
-    //               descending: true,
-    //               orderBy: "LastEventTime",
-    //             },
-    //             (err, { logStreams }) => {
-    //               if (err) {
-    //                 console.log(err, err.stack);
-    //                 return;
-    //               }
-    //
-    //               const { logStreamName } = logStreams[0];
-    //
-    //               cwLogs.getLogEvents(
-    //                 {
-    //                   logGroupName,
-    //                   logStreamName,
-    //                 },
-    //                 (err, eventsResponse) => {
-    //                   if (err) {
-    //                     console.log(err, err.stack);
-    //                     return;
-    //                   }
-    //
-    //                   console.log("eventsResponse:::", eventsResponse);
-    //                   const newWindow = window.open();
-    //                   newWindow.document.write(JSON.stringify(eventsResponse));
-    //                 }
-    //               );
-    //             }
-    //           );
-    //         }
-    //       );
-    //     });
-    //   }
-    // });
+    cwInstance.describeLogStreams(
+      {
+        logGroupName,
+        limit: 1,
+        descending: true,
+        orderBy: "LastEventTime",
+      },
+      (err, { logStreams }) => {
+        if (err) {
+          console.error(err, err.stack);
+          return;
+        }
+
+        console.log("LOG STREAMS", logStreams);
+
+        // We are only interested in the latest log stream in most cases
+        const { logStreamName } = logStreams[0];
+
+        cwInstance.getLogEvents(
+          { logGroupName, logStreamName },
+          (err, eventsResponse) => {
+            if (err) {
+              console.error(err, err.stack);
+              return;
+            }
+
+            const newWindow = window.open();
+            newWindow.document.write(
+              getLogDisplayString(logGroupName, eventsResponse)
+            );
+            newWindow.document.close();
+          }
+        );
+      }
+    );
   };
 
   if (checkingAuth) {

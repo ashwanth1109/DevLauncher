@@ -113,6 +113,25 @@ Give user the flexibility to choose which lambda they are interested in rather t
 We already have all the log groups fetched for a particular env.
 We need to use those as options to the material component.
 
+## Milestone 6: Fleeting log display
+
+### Feasibility Study:
+
+It's possible to dump html content into a tab in chrome with no major setup required.
+
+### Implementation Details:
+
+Open a newWindow `window.open()` and write content on to it `window.document.write(htmlContent)`
+
+### Benefit:
+
+DevSpaces workspace is ephemeral and fleeting. An opened workspace might get shut in a few minutes.
+With this approach, we can quickly lookup logs (not even saved anywhere, so no fuss), make changes, close workspace and launch a new one, all from just one chrome tab.
+
+Accessing relevant logs takes 2-3 seconds to fetch as opposed to 3-5 mins (easy) before (I'm not even kidding).
+Also, this is per lookup, which means this grows exponentially based on the number of times you check your logs.
+Furthermore, since only current env logs are only fetched, approach is not prone to error of looking at wrong env's logs.
+
 ## Brainstorm session notes:
 
 Ways to procure lambda logs directly using aws cli
