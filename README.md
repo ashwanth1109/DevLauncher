@@ -132,6 +132,25 @@ Accessing relevant logs takes 2-3 seconds to fetch as opposed to 3-5 mins (easy)
 Also, this is per lookup, which means this grows exponentially based on the number of times you check your logs.
 Furthermore, since only current env logs are only fetched, approach is not prone to error of looking at wrong env's logs.
 
+## Milestone 7: Env-Branch Info Tracker
+
+### Feasibility Study:
+
+We need some form of mapping between which branch is deployed to which env.
+We can pass the branch via env vars in the context URL.
+Store this information on lambda env variables.
+
+### Rationale:
+
+This information can be useful to understand what kind of deploy mode options must be set.
+We can set the options accordingly when creating a new workspace from a different branch.
+This would depend on the differences between the two branches being compared.
+
+### Benefits:
+
+When deploying and maintaining more than one env, you tend to lose track of which branch is on what env.
+Having this information means we can be more efficient about the kind of deploy options we set.
+
 ## Brainstorm session notes:
 
 Ways to procure lambda logs directly using aws cli

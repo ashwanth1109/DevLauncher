@@ -53,6 +53,13 @@ const root = document.getElementById("root");
 //   ReactDOM.render(<App tab={tab} />, root);
 // });
 
-// Temporary setup for enabling
+// Temporary setup for enabling hmr via webapp (on localhost)
 
-ReactDOM.render(<App tab={{ url: "test" }} />, root);
+ReactDOM.render(
+  <App
+    tab={{
+      url: "https://github.com/trilogy-group/5k-response-tek/tree/gitpod-test",
+    }}
+  />,
+  root
+);

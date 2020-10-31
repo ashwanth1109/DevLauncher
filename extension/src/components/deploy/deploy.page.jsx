@@ -1,37 +1,28 @@
-import React, {
-  useCallback,
-  // useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 
 import Button from "@material-ui/core/Button";
-// import ButtonGroup from "@material-ui/core/ButtonGroup";
-// import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-// import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-// import Grow from "@material-ui/core/Grow";
-// import Paper from "@material-ui/core/Paper";
-// import Popper from "@material-ui/core/Popper";
-// import MenuItem from "@material-ui/core/MenuItem";
-// import MenuList from "@material-ui/core/MenuList";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-// import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
-// import CheckBoxIcon from "@material-ui/icons/CheckBox";
 
 const envList = ["ash1", "ash2"];
 const options = ["install", "deploy", "start", "clean", "seed", "destroy"];
 
 const Deploy = ({ url }) => {
   const [env, setEnv] = useState("ash1");
-  // const [open, setOpen] = useState(false);
-  // const anchorRef = useRef(null);
-  // const [selectedIndex, setSelectedIndex] = useState(1);
+  const [envMap, setEnvMap] = useState({});
 
   const [checkboxState, setCheckboxState] = useState(
     options.reduce((acc, val) => {
@@ -51,27 +42,25 @@ const Deploy = ({ url }) => {
 
   const handleClick = () => {
     const { install, deploy, start, clean, seed, destroy } = checkboxState;
+    const branch = url
+      .replace("https://github.com/trilogy-group/", "")
+      .split("/")[2];
+
+    localStorage.setItem(env, branch);
+
     window.open(
       `https://trilogy.devspaces.com/#env=${env},install=${install},clean=${clean},deploy=${deploy},start=${start},seed=${seed},destroy=${destroy}/${url}`
     );
   };
 
-  // const handleMenuItemClick = (event, index) => {
-  //   setSelectedIndex(index);
-  //   setOpen(false);
-  // };
-
-  // const handleToggle = () => {
-  //   setOpen((prevOpen) => !prevOpen);
-  // };
-  //
-  // const handleClose = (event) => {
-  //   if (anchorRef.current && anchorRef.current.contains(event.target)) {
-  //     return;
-  //   }
-  //
-  //   setOpen(false);
-  // };
+  useEffect(() => {
+    setEnvMap(
+      envList.reduce((acc, val) => {
+        acc[val] = localStorage.getItem(val);
+        return acc;
+      }, {})
+    );
+  }, []);
 
   return (
     <div className={"col"}>
@@ -97,6 +86,7 @@ const Deploy = ({ url }) => {
       <FormGroup row>
         {options.map((option) => (
           <FormControlLabel
+            key={option}
             option={option}
             control={<Checkbox checked={checkboxState[option]} />}
             onChange={handleCheckboxStateChange}
@@ -116,58 +106,31 @@ const Deploy = ({ url }) => {
         Launch
       </Button>
 
-      {/*<ButtonGroup
-        variant="contained"
-        color="primary"
-        ref={anchorRef}
-        aria-label="split button"
-      >
-        <Button onClick={handleClick}>{options[selectedIndex]}</Button>
-        <Button
-          color="primary"
-          size="small"
-          aria-controls={open ? "split-button-menu" : undefined}
-          aria-expanded={open ? "true" : undefined}
-          aria-label="deploy only"
-          aria-haspopup="menu"
-          onClick={handleToggle}
-        >
-          <ArrowDropDownIcon />
-        </Button>
-      </ButtonGroup>
-      <Popper
-        open={open}
-        anchorEl={anchorRef.current}
-        role={undefined}
-        transition
-        disablePortal
-      >
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin:
-                placement === "bottom" ? "center top" : "center bottom",
-            }}
-          >
-            <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList id="split-button-menu">
-                  {options.map((option, index) => (
-                    <MenuItem
-                      key={option}
-                      selected={index === selectedIndex}
-                      onClick={(event) => handleMenuItemClick(event, index)}
-                    >
-                      {option}
-                    </MenuItem>
-                  ))}
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
-      </Popper>*/}
+      <div className={`mb-4`} />
+
+      <TableContainer component={Paper}>
+        <Table className={``}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Env</TableCell>
+              <TableCell align={`right`}>Branch</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {Object.entries(envMap).map(([envName, branch]) => {
+              console.log(envName, branch);
+              return (
+                <TableRow key={envName}>
+                  <TableCell component={`th`} scope={`row`}>
+                    {envName}
+                  </TableCell>
+                  <TableCell align={`right`}>{branch}</TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };
