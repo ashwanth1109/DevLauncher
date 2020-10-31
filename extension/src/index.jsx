@@ -6,14 +6,16 @@ import upload from "./assets/upload.png";
 import Settings from "./components/settings/settings.page";
 import MenuIcon from "./components/menu-icon/menu-icon.component";
 import Deploy from "./components/deploy/deploy.page";
+import Auth from "./components/auth/auth.page";
 
 const PAGE_NAME = {
+  AUTH: "AUTH",
   SETTINGS: "SETTINGS",
   DEPLOY: "DEPLOY",
 };
 
 const App = ({ tab }) => {
-  const [page, setPage] = useState(PAGE_NAME.DEPLOY);
+  const [page, setPage] = useState(PAGE_NAME.AUTH);
 
   const renderPage = useCallback(() => {
     switch (page) {
@@ -21,6 +23,8 @@ const App = ({ tab }) => {
         return <Settings />;
       case PAGE_NAME.DEPLOY:
         return <Deploy url={tab.url} />;
+      case PAGE_NAME.AUTH:
+        return <Auth />;
       default:
         return null;
     }
@@ -43,8 +47,12 @@ const App = ({ tab }) => {
 
 const root = document.getElementById("root");
 
-chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-  const tab = tabs[0];
+// chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+//   const tab = tabs[0];
+//
+//   ReactDOM.render(<App tab={tab} />, root);
+// });
 
-  ReactDOM.render(<App tab={tab} />, root);
-});
+// Temporary setup for enabling
+
+ReactDOM.render(<App tab={{ url: "test" }} />, root);

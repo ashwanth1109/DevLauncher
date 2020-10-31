@@ -74,13 +74,29 @@ Same benefit as Milestone 2.
 - I have a lot of setup (or data) associated with my users. Cleaning and reseeding my database will result in the loss of this setup. Execute only env deployment
 - My CDK has had resources change that requires destroying and redeploying my env from scratch. Enable destroy and deploy before opening my workspace.
 
-## Milestone 4: Launch workspace without opening cloud IDE
+## Milestone 4: Fetch Lambda logs (for all lambdas) -
+
+### Feasibility Study:
+
+The most straightforward approach is to use AWS access key and secret to access the cloudwatch logs but its not a safe approach. It is possible to use cognito to fetch lambda logs
+
+### Implementation Details
+
+We create a cognito user pool & identity pool with a cognito user.
+We then authenticate this user in the extension and then exchange the accessToken for temporary AWS credentials in order to fetch the lambda logs. Once these are fetched, we dump them as stringified text on a new window
 
 ### Rationale:
 
-As much as
+- Backend changes (compute: lambda) is the most frequent reason for redeploying an environment
+- On average, capability development involves checking 2-3 lambda logs several times while debugging
+- This is time-consuming - open aws console -> lambdas section -> filter by your env -> open specific lambda -> open latest log stream -> checkout latest log events
+- This is error-prone -> I have accidentally opened someone else's lambda logs (by looking at function name) and wondered why my changes are not working for 10-15 mins for no reason
+- This is resource-consuming & adds to chrome clutter -> you keep several tabs open while making lambda changes to constantly check lambdas
 
-### Feasibility Study:
+### Benefits:
+
+- Automatically filter lambda logs for YOUR env and fetch only the LAST log stream by default at the click of a button
+- Considering the ephemeral nature of the workspace, we can launch workspace, check logs in extension, make changes, close workspace and launch a new one. This makes development seamless and everything can be done from one point
 
 ## Brainstorm session notes:
 

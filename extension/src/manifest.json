@@ -4,7 +4,11 @@
   "version": "1.0.0",
   "description": "Launcher to open the electron application with specific options",
   "author": "Ashwanth A R",
-  "permissions": ["tabs", "*://github.com/*/*"],
+  "permissions": [
+    "tabs",
+    "*://github.com/*/*",
+    "*://*.ws.trilogy.devspaces.com/*/*"
+  ],
   "background": {
     "scripts": ["background.js"]
   },

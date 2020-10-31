@@ -34,6 +34,8 @@
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "amazon-cognito-identity-js": "^4.5.2",
+    "aws-sdk": "^2.783.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   }

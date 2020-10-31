@@ -1,5 +1,9 @@
 const forcePopup = ({ id, url }) => {
-  if (/https?:\/\/(github).com\/*\/!*/.test(url)) {
+  if (
+    /https?:\/\/(github).com\/*\/!*/.test(url)
+    // ||
+    // /https?:\/\/*trilogy.devspaces.com\/*/.test(url)
+  ) {
     chrome.pageAction.show(id);
   }
 };
