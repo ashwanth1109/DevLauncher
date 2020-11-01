@@ -2,22 +2,22 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
 }
 
 .app {
-  /*background: #18191c;*/
+  /*background: #282c34;*/
   /*color: #ffffff;*/
   width: 400px;
   height: 400px;
-  padding: 8px;
   display: flex;
   flex-direction: column;
 }
 
 .top-bar {
   width: 100%;
-  border-bottom: 1px solid #4a7ce0;
-  padding: 0 8px 16px 8px;
+  /*background: #1b1d23;*/
+  /*padding: 0 8px 16px 8px;*/
 }
 
 .flex1 {

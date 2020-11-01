@@ -1,5 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import ReactDOM from "react-dom";
+import Paper from "@material-ui/core/Paper";
+
 import settings from "./assets/settings.png";
 import upload from "./assets/upload.png";
 
@@ -7,6 +9,10 @@ import Settings from "./components/settings/settings.page";
 import MenuIcon from "./components/menu-icon/menu-icon.component";
 import Deploy from "./components/deploy/deploy.page";
 import Auth from "./components/auth/auth.page";
+import TopBar from "./components/top-bar";
+import Login from "./components/login";
+import useAuth from "./hooks/use-auth";
+import Main from "./components/main";
 
 const PAGE_NAME = {
   AUTH: "AUTH",
@@ -15,7 +21,9 @@ const PAGE_NAME = {
 };
 
 const App = ({ tab }) => {
-  const [page, setPage] = useState(PAGE_NAME.AUTH);
+  const [page, setPage] = useState(0);
+  // const [tab, setTab] = useState(0);
+  const { user, loginProps } = useAuth();
 
   const renderPage = useCallback(() => {
     switch (page) {
@@ -35,14 +43,23 @@ const App = ({ tab }) => {
   }, []);
 
   return (
-    <div className="app">
-      <div className={`top-bar row `}>
-        <MenuIcon icon={settings} handleClick={openSettings} />
-        <MenuIcon icon={upload} handleClick={() => setPage(PAGE_NAME.DEPLOY)} />
-      </div>
-      <div className="flex1">{renderPage()}</div>
-    </div>
+    <Paper className="app">
+      {user ? <Main user={user} /> : <Login {...loginProps} />}
+    </Paper>
   );
+
+  // return (
+  //   <Paper className="app">
+  //     <TopBar page={page} onPageChange={(_, val) => setPage(val)} />
+  //   </Paper>
+  //   // <div className="app">
+  //   //   {/*<div className={`top-bar row `}>*/}
+  //   //   {/*  <MenuIcon icon={settings} handleClick={openSettings} />*/}
+  //   //   {/*  <MenuIcon icon={upload} handleClick={() => setPage(PAGE_NAME.DEPLOY)} />*/}
+  //   //   {/*</div>*/}
+  //   //   <div className="flex1">{renderPage()}</div>
+  //   // </div>
+  // );
 };
 
 const root = document.getElementById("root");
@@ -50,16 +67,12 @@ const root = document.getElementById("root");
 // chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 //   const tab = tabs[0];
 //
-//   ReactDOM.render(<App tab={tab} />, root);
+//   ReactDOM.render(<App url={tab.url} />, root);
 // });
 
 // Temporary setup for enabling hmr via webapp (on localhost)
 
 ReactDOM.render(
-  <App
-    tab={{
-      url: "https://github.com/trilogy-group/5k-response-tek/tree/gitpod-test",
-    }}
-  />,
+  <App url="https://github.com/trilogy-group/5k-response-tek/tree/gitpod-test" />,
   root
 );
