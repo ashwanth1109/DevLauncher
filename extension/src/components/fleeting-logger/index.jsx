@@ -21,7 +21,7 @@ const FleetingLogger = ({
       style={{ width: "300px", marginBottom: "16px" }}
     >
       <InputLabel id={`lambda-select-label`}>
-        Choose lambda to fetch logs
+        Choose lambda to fetch logs*
       </InputLabel>
       <Select
         labelId={`lambda-select-label`}
@@ -45,6 +45,14 @@ const FleetingLogger = ({
     >
       Fetch Lambda Logs
     </ButtonLoading>
+
+    <p style={{ marginTop: "16px", fontSize: "13px" }}>
+      *The lambda logs will be fetched for your current env ({envName}).
+    </p>
+    <p style={{ marginTop: "16px", fontSize: "13px" }}>
+      *Only the log events from the latest stream are fetched since they are
+      typically the most relevant.
+    </p>
   </div>
 );
 

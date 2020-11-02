@@ -6,6 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import CloudUpload from "@material-ui/icons/CloudUpload";
 import Info from "@material-ui/icons/Info";
 import FolderSpecial from "@material-ui/icons/FolderSpecial";
+import History from "@material-ui/icons/History";
 
 const tabStyle = { maxWidth: "100px", minWidth: "initial" };
 
@@ -22,6 +23,7 @@ const TopBar = ({ tab, onTabChange }) => {
         <Tab style={tabStyle} icon={<CloudUpload />} />
         <Tab style={tabStyle} icon={<Info />} />
         <Tab style={tabStyle} icon={<FolderSpecial />} />
+        <Tab style={tabStyle} icon={<History />} />
       </Tabs>
     </Paper>
   );

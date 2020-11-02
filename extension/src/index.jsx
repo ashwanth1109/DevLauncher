@@ -21,21 +21,31 @@ const App = ({ url }) => {
   const { env, envList } = deployProps.chooseEnvProps;
   const fleetingLoggerProps = useLambdaLogger({ env, envList, cognitoUser });
 
+  const openSettings = () => {
+    window.open("https://trilogy.devspaces.com/settings/");
+  };
+
+  const openWorkspaces = () => {
+    window.open("https://trilogy.devspaces.com/");
+  };
+
   const renderPage = () => {
     switch (tab) {
       case 0:
         return <Deploy {...deployProps} />;
       case 1:
-        return <InfoTracker {...infoTrackerProps} />;
+        return (
+          <InfoTracker
+            {...infoTrackerProps}
+            openSettings={openSettings}
+            openWorkspaces={openWorkspaces}
+          />
+        );
       case 2:
         return <FleetingLogger {...fleetingLoggerProps} />;
       default:
         return null;
     }
-  };
-
-  const openSettings = () => {
-    window.open("https://trilogy.devspaces.com/settings/");
   };
 
   return (
