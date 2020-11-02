@@ -78,6 +78,7 @@ const useAuth = () => {
   return {
     user,
     handleLogOut,
+    cognitoUser,
     loginProps: {
       loading,
       username,

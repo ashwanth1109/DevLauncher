@@ -10,12 +10,16 @@ import useDeploySettings from "./hooks/use-deploy-settings";
 import useTopBar from "./hooks/use-top-bar";
 import InfoTracker from "./components/info-tracker";
 import useDeployInfo from "./hooks/use-deploy-info";
+import useLambdaLogger from "./hooks/use-lambda-logger";
+import FleetingLogger from "./components/fleeting-logger";
 
 const App = ({ url }) => {
-  const { user, handleLogOut, loginProps } = useAuth();
+  const { user, handleLogOut, cognitoUser, loginProps } = useAuth();
   const deployProps = useDeploySettings(url);
   const infoTrackerProps = useDeployInfo();
   const { tab, onTabChange } = useTopBar();
+  const { env, envList } = deployProps.chooseEnvProps;
+  const fleetingLoggerProps = useLambdaLogger({ env, envList, cognitoUser });
 
   const renderPage = () => {
     switch (tab) {
@@ -23,6 +27,8 @@ const App = ({ url }) => {
         return <Deploy {...deployProps} />;
       case 1:
         return <InfoTracker {...infoTrackerProps} />;
+      case 2:
+        return <FleetingLogger {...fleetingLoggerProps} />;
       default:
         return null;
     }
