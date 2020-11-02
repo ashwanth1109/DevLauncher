@@ -13,6 +13,7 @@ import TopBar from "./components/top-bar";
 import Login from "./components/login";
 import useAuth from "./hooks/use-auth";
 import Main from "./components/main";
+import useDeploySettings from "./hooks/use-deploy-settings";
 
 const PAGE_NAME = {
   AUTH: "AUTH",
@@ -24,19 +25,20 @@ const App = ({ url }) => {
   const [page, setPage] = useState(0);
   // const [tab, setTab] = useState(0);
   const { user, handleLogOut, loginProps } = useAuth();
+  const deployProps = useDeploySettings(url);
 
-  const renderPage = useCallback(() => {
+  const renderPage = () => {
     switch (page) {
+      case 0:
+        return <Deploy {...deployProps} />;
       case PAGE_NAME.SETTINGS:
         return <Settings />;
-      case PAGE_NAME.DEPLOY:
-        return <Deploy url={url} />;
       case PAGE_NAME.AUTH:
         return <Auth />;
       default:
         return null;
     }
-  }, [page]);
+  };
 
   const openSettings = useCallback(() => {
     window.open("https://trilogy.devspaces.com/settings/");
@@ -45,7 +47,9 @@ const App = ({ url }) => {
   return (
     <Paper className="app">
       {user ? (
-        <Main user={user} handleLogOut={handleLogOut} />
+        <Main user={user} handleLogOut={handleLogOut}>
+          {renderPage()}
+        </Main>
       ) : (
         <Login {...loginProps} />
       )}
