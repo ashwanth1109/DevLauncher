@@ -6,18 +6,14 @@
 }
 
 .app {
-  /*background: #282c34;*/
-  /*color: #ffffff;*/
   width: 400px;
-  height: 400px;
+  height: 420px;
   display: flex;
   flex-direction: column;
 }
 
 .top-bar {
   width: 100%;
-  /*background: #1b1d23;*/
-  /*padding: 0 8px 16px 8px;*/
 }
 
 .flex1 {

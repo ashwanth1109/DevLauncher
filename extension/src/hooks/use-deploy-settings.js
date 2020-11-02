@@ -1,8 +1,5 @@
 import { useState } from "react";
-
-// TODO: this needs to be made dynamic
-const envList = ["ash1", "ash2"];
-const optionsList = ["install", "deploy", "start", "clean", "seed", "destroy"];
+import { envList, optionsList } from "../utils/data";
 
 const useDeploySettings = (url) => {
   const [env, setEnv] = useState(0);

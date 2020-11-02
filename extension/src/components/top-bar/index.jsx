@@ -4,6 +4,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Paper from "@material-ui/core/Paper";
 import CloudUpload from "@material-ui/icons/CloudUpload";
+import Info from "@material-ui/icons/Info";
 
 const TopBar = ({ tab, onTabChange }) => {
   return (
@@ -16,7 +17,7 @@ const TopBar = ({ tab, onTabChange }) => {
         textColor="primary"
       >
         <Tab icon={<CloudUpload />} />
-        <Tab icon={<CloudUpload />} />
+        <Tab icon={<Info />} />
       </Tabs>
     </Paper>
   );

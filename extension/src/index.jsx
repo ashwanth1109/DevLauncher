@@ -1,53 +1,45 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import Paper from "@material-ui/core/Paper";
 
-import settings from "./assets/settings.png";
-import upload from "./assets/upload.png";
-
-import Settings from "./components/settings/settings.page";
-import MenuIcon from "./components/menu-icon/menu-icon.component";
 import Deploy from "./components/deploy/deploy.page";
-import Auth from "./components/auth/auth.page";
-import TopBar from "./components/top-bar";
 import Login from "./components/login";
 import useAuth from "./hooks/use-auth";
 import Main from "./components/main";
 import useDeploySettings from "./hooks/use-deploy-settings";
-
-const PAGE_NAME = {
-  AUTH: "AUTH",
-  SETTINGS: "SETTINGS",
-  DEPLOY: "DEPLOY",
-};
+import useTopBar from "./hooks/use-top-bar";
+import InfoTracker from "./info-tracker";
+import useDeployInfo from "./hooks/use-deploy-info";
 
 const App = ({ url }) => {
-  const [page, setPage] = useState(0);
-  // const [tab, setTab] = useState(0);
   const { user, handleLogOut, loginProps } = useAuth();
   const deployProps = useDeploySettings(url);
+  const infoTrackerProps = useDeployInfo();
+  const { tab, onTabChange } = useTopBar();
 
   const renderPage = () => {
-    switch (page) {
+    switch (tab) {
       case 0:
         return <Deploy {...deployProps} />;
-      case PAGE_NAME.SETTINGS:
-        return <Settings />;
-      case PAGE_NAME.AUTH:
-        return <Auth />;
+      case 1:
+        return <InfoTracker {...infoTrackerProps} />;
       default:
         return null;
     }
   };
 
-  const openSettings = useCallback(() => {
+  const openSettings = () => {
     window.open("https://trilogy.devspaces.com/settings/");
-  }, []);
+  };
 
   return (
     <Paper className="app">
       {user ? (
-        <Main user={user} handleLogOut={handleLogOut}>
+        <Main
+          user={user}
+          handleLogOut={handleLogOut}
+          topbarProps={{ tab, onTabChange }}
+        >
           {renderPage()}
         </Main>
       ) : (
@@ -55,19 +47,6 @@ const App = ({ url }) => {
       )}
     </Paper>
   );
-
-  // return (
-  //   <Paper className="app">
-  //     <TopBar page={page} onPageChange={(_, val) => setPage(val)} />
-  //   </Paper>
-  //   // <div className="app">
-  //   //   {/*<div className={`top-bar row `}>*/}
-  //   //   {/*  <MenuIcon icon={settings} handleClick={openSettings} />*/}
-  //   //   {/*  <MenuIcon icon={upload} handleClick={() => setPage(PAGE_NAME.DEPLOY)} />*/}
-  //   //   {/*</div>*/}
-  //   //   <div className="flex1">{renderPage()}</div>
-  //   // </div>
-  // );
 };
 
 const root = document.getElementById("root");
