@@ -19,8 +19,9 @@ const useAuth = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  // User name state
-  const [user, setUser] = useState("");
+  // Login form state
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // Check if user is already logged in
   useLayoutEffect(() => {
@@ -41,6 +42,7 @@ const useAuth = () => {
 
   const handleAuth = (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const authDetails = new AuthenticationDetails({
       Username: username,
@@ -57,18 +59,33 @@ const useAuth = () => {
       Pool: userPool,
     };
 
-    const cognitoUser = new CognitoUser(userData);
+    const newCognitoUser = new CognitoUser(userData);
 
-    cognitoUser.authenticateUser(authDetails, {
+    newCognitoUser.authenticateUser(authDetails, {
       onSuccess: (session) => {
-        setUser(session.getAccessToken().decodePayload().username);
+        setCognitoUser(newCognitoUser);
+
+        setLoading(false);
       },
     });
   };
 
+  const handleLogOut = () => {
+    cognitoUser.signOut();
+    setUser(null);
+  };
+
   return {
     user,
-    loginProps: { username, password, setUsername, setPassword, handleAuth },
+    handleLogOut,
+    loginProps: {
+      loading,
+      username,
+      password,
+      setUsername,
+      setPassword,
+      handleAuth,
+    },
   };
 };
 

@@ -5,12 +5,12 @@ import Tab from "@material-ui/core/Tab";
 import Paper from "@material-ui/core/Paper";
 import CloudUpload from "@material-ui/icons/CloudUpload";
 
-const TopBar = ({ page, onPageChange }) => {
+const TopBar = ({ tab, onTabChange }) => {
   return (
     <Paper square className="top-bar">
       <Tabs
-        value={page}
-        onChange={onPageChange}
+        value={tab}
+        onChange={onTabChange}
         variant="fullWidth"
         indicatorColor="primary"
         textColor="primary"

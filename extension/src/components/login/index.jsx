@@ -1,9 +1,9 @@
 import React from "react";
 import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
 
 import "./style.css";
 import Input from "./input";
+import ButtonLoading from "../shared/button-loading";
 
 const Login = ({
   username,
@@ -11,6 +11,7 @@ const Login = ({
   setUsername,
   setPassword,
   handleAuth,
+  loading,
 }) => (
   <div>
     <Paper square>
@@ -29,14 +30,9 @@ const Login = ({
         type="password"
       />
 
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        style={{ width: "100%" }}
-      >
+      <ButtonLoading type="submit" style={{ width: "100%" }} loading={loading}>
         Sign In
-      </Button>
+      </ButtonLoading>
     </form>
   </div>
 );

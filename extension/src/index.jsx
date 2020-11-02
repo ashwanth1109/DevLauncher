@@ -20,17 +20,17 @@ const PAGE_NAME = {
   DEPLOY: "DEPLOY",
 };
 
-const App = ({ tab }) => {
+const App = ({ url }) => {
   const [page, setPage] = useState(0);
   // const [tab, setTab] = useState(0);
-  const { user, loginProps } = useAuth();
+  const { user, handleLogOut, loginProps } = useAuth();
 
   const renderPage = useCallback(() => {
     switch (page) {
       case PAGE_NAME.SETTINGS:
         return <Settings />;
       case PAGE_NAME.DEPLOY:
-        return <Deploy url={tab.url} />;
+        return <Deploy url={url} />;
       case PAGE_NAME.AUTH:
         return <Auth />;
       default:
@@ -44,7 +44,11 @@ const App = ({ tab }) => {
 
   return (
     <Paper className="app">
-      {user ? <Main user={user} /> : <Login {...loginProps} />}
+      {user ? (
+        <Main user={user} handleLogOut={handleLogOut} />
+      ) : (
+        <Login {...loginProps} />
+      )}
     </Paper>
   );
 
