@@ -8,7 +8,7 @@ import useAuth from "./hooks/use-auth";
 import Main from "./components/main";
 import useDeploySettings from "./hooks/use-deploy-settings";
 import useTopBar from "./hooks/use-top-bar";
-import InfoTracker from "./info-tracker";
+import InfoTracker from "./components/info-tracker";
 import useDeployInfo from "./hooks/use-deploy-info";
 
 const App = ({ url }) => {
