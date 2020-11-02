@@ -5,7 +5,7 @@ const envList = ["ash1", "ash2"];
 const optionsList = ["install", "deploy", "start", "clean", "seed", "destroy"];
 
 const useDeploySettings = (url) => {
-  const [env, setEnv] = useState(1);
+  const [env, setEnv] = useState(0);
 
   const [options, setOptions] = useState(
     optionsList.reduce((acc, val) => {
@@ -25,13 +25,14 @@ const useDeploySettings = (url) => {
     localStorage.setItem(envList[env], branch);
 
     window.open(
-      `https://trilogy.devspaces.com/#env=${env},install=${install},clean=${clean},deploy=${deploy},start=${start},seed=${seed},destroy=${destroy}/${url}`
+      `https://trilogy.devspaces.com/#env=${envList[env]},install=${install},clean=${clean},deploy=${deploy},start=${start},seed=${seed},destroy=${destroy}/${url}`
     );
   };
 
   return {
+    handleDeploy,
     chooseEnvProps: { env, setEnv, envList },
-    deployOptionsProps: { options, setOptions, handleDeploy },
+    deployOptionsProps: { options, setOptions },
   };
 };
 

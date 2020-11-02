@@ -10,7 +10,7 @@ import ChooseEnv from "./choose-env";
 import DeployOptions from "./deploy-options";
 
 const Deploy = ({ handleDeploy, chooseEnvProps, deployOptionsProps }) => {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(1);
   const { env, envList } = chooseEnvProps;
 
   return (
