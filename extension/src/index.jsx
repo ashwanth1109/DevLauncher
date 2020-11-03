@@ -12,14 +12,18 @@ import InfoTracker from "./components/info-tracker";
 import useDeployInfo from "./hooks/use-deploy-info";
 import useLambdaLogger from "./hooks/use-lambda-logger";
 import FleetingLogger from "./components/fleeting-logger";
+import HistoryTracker from "./components/history-tracker";
+import useDeployHistory from "./hooks/use-deploy-history";
 
-const App = ({ url }) => {
+const App = ({ url, hash }) => {
   const { user, handleLogOut, cognitoUser, loginProps } = useAuth();
-  const deployProps = useDeploySettings(url);
+  const { addItemToHistory, history } = useDeployHistory();
+  const deployProps = useDeploySettings({ url, hash, addItemToHistory });
   const infoTrackerProps = useDeployInfo();
   const { tab, onTabChange } = useTopBar();
   const { env, envList } = deployProps.chooseEnvProps;
   const fleetingLoggerProps = useLambdaLogger({ env, envList, cognitoUser });
+  const envName = envList[env];
 
   const openSettings = () => {
     window.open("https://trilogy.devspaces.com/settings/");
@@ -42,6 +46,10 @@ const App = ({ url }) => {
           />
         );
       case 2:
+        return (
+          <HistoryTracker hash={hash} envName={envName} history={history} />
+        );
+      case 3:
         return <FleetingLogger {...fleetingLoggerProps} />;
       default:
         return null;
@@ -67,15 +75,23 @@ const App = ({ url }) => {
 
 const root = document.getElementById("root");
 
-// chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-//   const tab = tabs[0];
-//
-//   ReactDOM.render(<App url={tab.url} />, root);
-// });
+// Actual setup for chrome extension
 
-// Temporary setup for enabling hmr via webapp (on localhost)
+chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+  const tab = tabs[0];
 
-ReactDOM.render(
-  <App url="https://github.com/trilogy-group/5k-response-tek/tree/gitpod-test" />,
-  root
-);
+  chrome.storage.local.get(["hash"], ({ hash }) => {
+    ReactDOM.render(<App url={tab.url} hash={hash} />, root);
+  });
+});
+
+// Temporary setup for enabling hmr via webapp (on localhost for fast development)
+
+// ReactDOM.render(
+//   <App
+//     // Test values supplied since we are not fetching it from background.js
+//     url="https://github.com/trilogy-group/5k-response-tek/tree/gitpod-test"
+//     hash="bd17f11"
+//   />,
+//   root
+// );

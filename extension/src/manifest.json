@@ -4,14 +4,17 @@
   "version": "1.0.0",
   "description": "Launcher to open the electron application with specific options",
   "author": "Ashwanth A R",
-  "permissions": [
-    "tabs",
-    "*://github.com/*/*",
-    "*://*.ws.trilogy.devspaces.com/*/*"
-  ],
+  "permissions": ["storage", "tabs", "*://github.com/*/*"],
   "background": {
     "scripts": ["background.js"]
   },
+  "content_scripts": [
+    {
+      "matches": ["*://github.com/*/*"],
+      "run_at": "document_end",
+      "js": ["save-commit-hash.js"]
+    }
+  ],
   "page_action": {
     "default_popup": "index.html"
   }

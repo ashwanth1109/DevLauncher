@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { envList, optionsList } from "../utils/data";
+import booleanToBit from "../utils/booleanToBit";
 
-const useDeploySettings = (url) => {
+const useDeploySettings = ({ url, hash, addItemToHistory }) => {
   const [env, setEnv] = useState(0);
+  const envName = envList[env];
 
   const [options, setOptions] = useState(
     optionsList.reduce((acc, val) => {
@@ -13,17 +15,30 @@ const useDeploySettings = (url) => {
   );
 
   const handleDeploy = () => {
-    const { install, deploy, start, clean, seed, destroy } = options;
+    const { deploy, start, clean, seed, destroy, test } = options;
 
+    // Store data for info tracker
     const branch = url
       .replace("https://github.com/trilogy-group/", "")
       .split("/")[2];
-
     localStorage.setItem(envList[env], branch);
 
-    window.open(
-      `https://trilogy.devspaces.com/#env=${envList[env]},install=${install},clean=${clean},deploy=${deploy},start=${start},seed=${seed},destroy=${destroy}/${url}`
+    // Store data for history tracker
+    const runOptions = [];
+    Object.entries(options).map(([key, val]) => {
+      if (val) runOptions.push(key);
+    });
+
+    addItemToHistory(envName, new Date(), hash, runOptions);
+
+    const optionArr = [clean, destroy, deploy, seed, test, start];
+
+    const mode = optionArr.reduce(
+      (acc, val) => `${acc}${booleanToBit(val)}`,
+      "mode="
     );
+
+    window.open(`https://trilogy.devspaces.com/#env=${envName},${mode}/${url}`);
   };
 
   return {

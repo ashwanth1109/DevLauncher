@@ -28,6 +28,10 @@
       {
         "staticPath": "src/background.js",
         "staticOutDir": ""
+      },
+      {
+        "staticPath": "src/save-commit-hash.js",
+        "staticOutDir": ""
       }
     ]
   },

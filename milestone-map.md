@@ -132,7 +132,7 @@ Accessing relevant logs takes 2-3 seconds to fetch as opposed to 3-5 mins (easy)
 Also, this is per lookup, which means this grows exponentially based on the number of times you check your logs.
 Furthermore, since only current env logs are only fetched, approach is not prone to error of looking at wrong env's logs.
 
-## Milestone 7: Env-Branch Info Tracker
+## Milestone 7: Env-Branch Info Tracker (High level)
 
 ### Feasibility Study:
 
@@ -145,6 +145,37 @@ Store this information on lambda env variables.
 This information can be useful to understand what kind of deploy mode options must be set.
 We can set the options accordingly when creating a new workspace from a different branch.
 This would depend on the differences between the two branches being compared.
+
+### Benefits:
+
+When working with more than one env, you tend to lose track of which branch is associated with which env.
+This especially happens when you come back after a break. This can sometimes mean, you deploy the env for no reason.
+With the extension tracking this information for you, you know exactly what needs to be done to setup your env.
+No wasteful step needs to be taken.
+
+## Milestone 8: Event history tracker (Low level)
+
+### Rationale:
+
+More detailed breakdown helps the user understand further the kind of deployment that's necessary.
+This information can also be useful for debugging purposes in case something goes wrong.
+
+### Feasibility Study:
+
+Since this is meant to be a more detailed log, we are looking to store the latest commit as opposed to the branch name because more commits can be pushed.
+
+The long-term solution would be to
+
+- authenticate user with github account
+- use auth token to call api.github to fetch the latest commit hash for branch
+
+The alternative quick approach used now is to:
+
+- use content scripts to lookup the DOM for element with classes "f6 link-gray text-mono ml-2 d-none d-lg-inline"
+- While there is only one element that matches this lookup, the problem with this approach is that github can change the classes applied
+- Furthermore, with content scripts, we need to set up an interval that polls for whether the element is loaded in case it is not loaded at the time of query (not ideal)
+
+We are currently maintaining a max of 5 events per env in history
 
 ### Benefits:
 

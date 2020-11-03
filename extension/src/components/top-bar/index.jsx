@@ -22,8 +22,8 @@ const TopBar = ({ tab, onTabChange }) => {
       >
         <Tab style={tabStyle} icon={<CloudUpload />} />
         <Tab style={tabStyle} icon={<Info />} />
-        <Tab style={tabStyle} icon={<FolderSpecial />} />
         <Tab style={tabStyle} icon={<History />} />
+          <Tab style={tabStyle} icon={<FolderSpecial />} />
       </Tabs>
     </Paper>
   );
