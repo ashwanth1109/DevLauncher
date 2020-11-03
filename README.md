@@ -1,6 +1,9 @@
 # DevLauncher chrome extension
 
-[Link to 5k-responsetek gitpod changes](https://github.com/trilogy-group/5k-response-tek/pull/242)
+[Link to 5k-responsetek gitpod-test PR](https://github.com/trilogy-group/5k-response-tek/pull/242)
+[Link to gitpod.yml file](https://github.com/trilogy-group/5k-response-tek/blob/gitpod-test/.gitpod.yml)
+[Link to .gitpod.Dockerfile](https://github.com/trilogy-group/5k-response-tek/blob/gitpod-test/.gitpod.Dockerfile)
+[Link to npm scripts implementation](https://github.com/trilogy-group/5k-response-tek/blob/gitpod-test/scripts/cli.ts)
 
 Note: The 5k-responsetek project has been put on hold at the time of hackathon submission.
 All the cloudformation stacks (incl. bootstrap stack) have been cleaned up and unfortunately the environments are not in deployable state at the moment.
