@@ -12,9 +12,13 @@ Explore how to create chrome extension and electron apps to understand the scope
 Created a POC for:
 
 1. Chrome extension setup with popup window written with parcel + react
-2. Electron wrapper for DevSpaces Workspace
+   Take advantage of faster deployment (50-60%) in cloud IDE over local.
+   Per software capability, we tend to deploy our CDK changes a few times.
+   This results in time wasted waiting on deployments to complete since each deployment can take 15-20 mins.
 
-## Milestone 1: Session Management + Quick set config via extension
+2. Electron wrapper for DevSpaces Workspace (idea is low impact - so scrapped)
+
+## Milestone 1: DevSpaces Session Management from extension + Quick set config via extension
 
 ### Feasibility Study:
 
@@ -30,7 +34,7 @@ User will have to configure settings on the domain.
 
 ### Benefit:
 
-Adds a tiny benefit of not looking up
+Adds a tiny benefit of not looking up the URL, but its not super impactful
 
 ## Milestone 2: Multiple env management UI
 
@@ -40,7 +44,7 @@ Material-UI based mini-dashboard for managing deploy & env settings. Nothing too
 
 ### Implementation Details:
 
-Available Options: install, deploy, start, clean, seed, destroy
+Available Options: deploy, start, clean, seed, destroy, test
 
 ### Benefit:
 
@@ -64,29 +68,30 @@ by piping the passed in env variables via the npm script.
 
 ### Implementation Details:
 
-[Example URL](https://trilogy.devspaces.com/#env=ash1,mode=111111/https://github.com/trilogy-group/5k-response-tek/tree/gitpod-test)
+Example URL - `https://trilogy.devspaces.com/#env=ash1,mode=111111/https://github.com/trilogy-group/5k-response-tek/tree/gitpod-test`
 
 ### Benefits:
 
 Maps deploy mode options from Milestone 2 to actual deployment configuration in gitpod.yml -> cli.ts
 Same benefit as Milestone 2.
 
-### Example Scenarios:
+### Example Scenarios where deploy options are useful:
 
 - I know the code is not in deployable state. Does not make sense to execute any run scripts. I make the necessary change, push the changes and only then launch a new workspace from latest commit in deploy mode (executing run scripts).
 - I have a lot of setup (or data) associated with my users. Cleaning and reseeding my database will result in the loss of this setup. Execute only env deployment
 - My CDK has had resources change that requires destroying and redeploying my env from scratch. Enable destroy and deploy before opening my workspace.
+- Need to fix breaking test. No need to deploy or start frontend app in this situation
 
-## Milestone 4: Fetch Lambda logs (for all lambdas) -
+## Milestone 4: Fleeting lambda logger (for all lambdas in current env) -
 
 ### Feasibility Study:
 
-The most straightforward approach is to use AWS access key and secret to access the cloudwatch logs but its not a safe approach. It is possible to use cognito to fetch lambda logs
+The most straightforward approach is to use AWS access key and secret to access the cloudwatch logs but its not a safe approach. It is possible to use cognito to fetch lambda logs instead. This is the chosen approach.
 
 ### Implementation Details
 
 We create a cognito user pool & identity pool with a cognito user.
-We then authenticate this user in the extension and then exchange the accessToken for temporary AWS credentials in order to fetch the lambda logs. Once these are fetched, we dump them as stringified text on a new window
+We then authenticate this user in the extension and then exchange the accessToken for temporary AWS credentials (with restricted role permissions) in order to fetch the lambda logs. Once these are fetched, we dump them as stringified text on a new window (not saved anywhere, hence fleeting)
 
 ### Rationale:
 
@@ -94,11 +99,12 @@ We then authenticate this user in the extension and then exchange the accessToke
 - On average, capability development involves checking 2-3 lambda logs several times while debugging
 - This is time-consuming - open aws console -> lambdas section -> filter by your env -> open specific lambda -> open latest log stream -> checkout latest log events
 - This is error-prone -> I have accidentally opened someone else's lambda logs (by looking at function name) and wondered why my changes are not working for 10-15 mins for no reason
-- This is resource-consuming & adds to chrome clutter -> you keep several tabs open while making lambda changes to constantly check lambdas
+- This is resource-consuming (for browser) when you keep several tabs open while making lambda changes to constantly check lambdas and adds to chrome clutter
 
 ### Benefits:
 
 - Automatically filter lambda logs for YOUR env and fetch only the LAST log stream by default at the click of a button
+- Last log stream is the one that is relevant in 90+% cases since we want to look at the latest logs to identify the latest failure
 - Considering the ephemeral nature of the workspace, we can launch workspace, check logs in extension, make changes, close workspace and launch a new one. This makes development seamless and everything can be done from one point
 
 ## Milestone 5: Lambda select component
@@ -116,7 +122,7 @@ Give user the flexibility to choose which lambda they are interested in rather t
 We already have all the log groups fetched for a particular env.
 We need to use those as options to the material component.
 
-## Milestone 6: Fleeting log display
+## Milestone 6: Ephemeral log window
 
 ### Feasibility Study:
 
@@ -129,10 +135,12 @@ Open a newWindow `window.open()` and write content on to it `window.document.wri
 ### Benefit:
 
 DevSpaces workspace is ephemeral and fleeting. An opened workspace might get shut in a few minutes.
-With this approach, we can quickly lookup logs (not even saved anywhere, so no fuss), make changes, close workspace and launch a new one, all from just one chrome tab.
+With this approach, we can quickly lookup logs (not even saved anywhere, so no fuss), make changes to our repo, close workspace and launch a new one, all from just one chrome tab (goodbye clutter).
 
-Accessing relevant logs takes 2-3 seconds to fetch as opposed to 3-5 mins (easy) before (I'm not even kidding).
+Accessing relevant logs takes 2-3 seconds to fetch via the extension as opposed to 2-3 mins (easy) via AWS console.
+(I'm not even kidding).
 Also, this is per lookup, which means this grows exponentially based on the number of times you check your logs.
+Which is several times per feature.
 Furthermore, since only current env logs are only fetched, approach is not prone to error of looking at wrong env's logs.
 
 ## Milestone 7: Env-Branch Info Tracker (High level)
