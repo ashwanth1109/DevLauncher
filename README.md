@@ -12,9 +12,10 @@ Explore how to create chrome extension and electron apps to understand the scope
 Created a POC for:
 
 1. Chrome extension setup with popup window written with parcel + react
-   Take advantage of faster deployment (50-60%) in cloud IDE over local.
-   Per software capability, we tend to deploy our CDK changes a few times.
-   This results in time wasted waiting on deployments to complete since each deployment can take 15-20 mins.
+   
+Take advantage of faster deployment (50-60%) in cloud IDE over local.
+Per software capability, we tend to deploy our CDK changes a few times.
+This results in time wasted waiting on deployments to complete since each deployment can take 15-20 mins.
 
 2. Electron wrapper for DevSpaces Workspace (idea is low impact - so scrapped)
 
