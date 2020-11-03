@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "DevSpaces Electron Launcher",
+  "name": "DevLauncher",
   "version": "1.0.0",
-  "description": "Launcher to open the electron application with specific options",
+  "description": "Chrome extension to control the deployment of multiple envs in DevSpaces",
   "author": "Ashwanth A R",
   "permissions": ["storage", "tabs", "*://github.com/*/*"],
   "background": {

@@ -28,9 +28,11 @@ const useDeployHistory = () => {
 
     historyofCurrentEnv.unshift(new HistoryItem(date, hash, runOptions));
     setHistory({ ...history, [envName]: historyofCurrentEnv });
-
-    localStorage.setItem("history", JSON.stringify(history));
   };
+
+  useEffect(() => {
+    localStorage.setItem("history", JSON.stringify(history));
+  }, [history]);
 
   return { history, addItemToHistory };
 };
