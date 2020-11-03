@@ -1,5 +1,14 @@
 # DevLauncher chrome extension
 
+[Link to 5k-responsetek gitpod changes](https://github.com/trilogy-group/5k-response-tek/pull/242)
+
+Note: The 5k-responsetek project has been put on hold at the time of hackathon submission.
+All the cloudformation stacks (incl. bootstrap stack) have been cleaned up and unfortunately the environments are not in deployable state at the moment.
+This means that the extension cannot deploy and is not demoable right now. But the gitpod changes on 5k-responsetek repo and the current repo show how this works.
+And the demo was recorded at a time when the environments were in deployable state.
+
+# Milestone Map
+
 ## Milestone 0: Extension, Desktop App POC tests
 
 ### Rationale:
