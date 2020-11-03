@@ -12,7 +12,7 @@ Explore how to create chrome extension and electron apps to understand the scope
 Created a POC for:
 
 1. Chrome extension setup with popup window written with parcel + react
-   
+
 Take advantage of faster deployment (50-60%) in cloud IDE over local.
 Per software capability, we tend to deploy our CDK changes a few times.
 This results in time wasted waiting on deployments to complete since each deployment can take 15-20 mins.
@@ -30,7 +30,7 @@ This means any configuration that is set, must be done via the DevSpaces domain.
 
 ### Alternate solution:
 
-Open `https://trilogy.devspaces.com/settings/` in new window on click
+Add quick access buttons to open `https://trilogy.devspaces.com/settings/` and `https://trilogy.devspaces.com/` in new window on click.
 User will have to configure settings on the domain.
 
 ### Benefit:
