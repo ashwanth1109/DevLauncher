@@ -56,12 +56,15 @@ Example: `gitpod.deploy-only.yml`, `gitpod.destroy-deploy.yml`
 ### Alternate solution:
 
 Pass env variables via the DevSpaces URL (env name + deploy mode config).
+There is a limitation with env vars (passed via URL) that only two env vars are taken from the url (not sure why)
+To bypass this limitation we pass two vars `env` and `mode` where `mode` encodes all the options as a string with 1's and 0's
+where 1's represent the option set to true and 0's represent the option set to false
 Use these variables to help control the kind of setup that needs to be done inside our cli tool instead
 by piping the passed in env variables via the npm script.
 
 ### Implementation Details:
 
-[Example URL](https://trilogy.devspaces.com/#env=ash1,install=true,clean=true,deploy=true,start=true,seed=true,destroy=true/https://github.com/trilogy-group/5k-response-tek/tree/gitpod-test)
+[Example URL](https://trilogy.devspaces.com/#env=ash1,mode=111111/https://github.com/trilogy-group/5k-response-tek/tree/gitpod-test)
 
 ### Benefits:
 
