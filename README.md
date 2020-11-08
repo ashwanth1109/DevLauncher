@@ -1,4 +1,6 @@
-# DevLauncher chrome extension
+# DevLauncher chrome extension - DevSpaces Hackathon Entry
+
+Result: [First place finish](https://start.devspaces.com/devspaces-hackathon/#winners1)
 
 [Link to 5k-responsetek gitpod-test PR](https://github.com/trilogy-group/5k-response-tek/pull/242)
 
