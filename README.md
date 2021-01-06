@@ -2,6 +2,10 @@
 
 Result: [First place finish](https://start.devspaces.com/devspaces-hackathon/#winners1)
 
+[Link to Demo](https://www.youtube.com/watch?v=Sr9YMOj4j48)
+
+Other Links:
+
 [Link to 5k-responsetek gitpod-test PR](https://github.com/trilogy-group/5k-response-tek/pull/242)
 
 [Link to gitpod.yml file](https://github.com/trilogy-group/5k-response-tek/blob/gitpod-test/.gitpod.yml)
@@ -9,11 +13,6 @@ Result: [First place finish](https://start.devspaces.com/devspaces-hackathon/#wi
 [Link to .gitpod.Dockerfile](https://github.com/trilogy-group/5k-response-tek/blob/gitpod-test/.gitpod.Dockerfile)
 
 [Link to npm scripts implementation](https://github.com/trilogy-group/5k-response-tek/blob/gitpod-test/scripts/cli.ts)
-
-Note: The 5k-responsetek project has been put on hold at the time of hackathon submission.
-All the cloudformation stacks (incl. bootstrap stack) have been cleaned up and unfortunately the environments are not in deployable state at the moment.
-This means that the extension cannot deploy and is not demoable right now. But the gitpod changes on 5k-responsetek repo and the current repo show how this works.
-And the demo was recorded at a time when the environments were in deployable state.
 
 # Milestone Map
 
