@@ -1,6 +1,6 @@
 # DevLauncher chrome extension - DevSpaces Hackathon Entry
 
-Result: [First place finish](https://start.devspaces.com/devspaces-hackathon/#winners1)
+[Result: First place finish](https://start.devspaces.com/devspaces-hackathon/#winners1)
 
 [Link to Demo](https://www.youtube.com/watch?v=Sr9YMOj4j48)
 
